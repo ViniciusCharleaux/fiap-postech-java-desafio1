@@ -1,8 +1,9 @@
 package br.com.fiap.tc.restaurant.repositories;
 
-import java.util.List;
+import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,7 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long>{
     boolean existsByEmail(String email);
     boolean existsByLogin(String login);
     Optional<Usuario> findByLogin(String login);
+    Optional<Usuario> findByEmail(String login);
     Optional<Usuario> findByLoginAndSenha(String login, String senha);
-    List<Usuario> findByNomeContainingIgnoreCase(String nome);
+    Page<Usuario> findByNomeContainingIgnoreCase(String nome, Pageable pageable);
 }

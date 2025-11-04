@@ -7,12 +7,15 @@ import org.springframework.stereotype.Service;
 
 import br.com.fiap.tc.restaurant.dto.CriarProprietarioRestauranteDTO;
 import br.com.fiap.tc.restaurant.dto.ProprietarioResponseDTO;
+import br.com.fiap.tc.restaurant.dto.ProprietarioUpdateDTO;
 import br.com.fiap.tc.restaurant.entities.Endereco;
 import br.com.fiap.tc.restaurant.entities.ProprietarioRestaurante;
 import br.com.fiap.tc.restaurant.exceptions.DuplicateResourceException;
+import br.com.fiap.tc.restaurant.exceptions.ResourceNotFoundException;
 import br.com.fiap.tc.restaurant.helpers.ConverteDTO;
 import br.com.fiap.tc.restaurant.repositories.ProprietarioRepositorio;
 import br.com.fiap.tc.restaurant.repositories.UsuarioRepositorio;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ProprietarioRestauranteService {
@@ -21,6 +24,7 @@ public class ProprietarioRestauranteService {
     private final UsuarioRepositorio usuarioRepositorio;
     private final ConverteDTO converteDto = new ConverteDTO();
     private final PasswordEncoder passwordEncoder;
+     ConverteDTO converteDTO = new ConverteDTO();
 
     public ProprietarioRestauranteService(
         ProprietarioRepositorio proprietarioRepositorio, 
@@ -65,5 +69,33 @@ public class ProprietarioRestauranteService {
 
         ProprietarioRestaurante novoProprietario = proprietarioRepositorio.save(proprietario);
         return converteDto.convertePaProprietarioResponseDTO(novoProprietario);
+    }
+
+    public void excluirProprietario(Long id) {
+
+        if(!proprietarioRepositorio.existsById(id)) {
+            throw new IllegalArgumentException("Proprietario não encontrado: " + id);
+        }
+
+        proprietarioRepositorio.deleteById(id);
+    }
+
+    @Transactional
+    public ProprietarioResponseDTO atualizarProprietario(Long id, ProprietarioUpdateDTO dto) {
+        ProprietarioRestaurante proprietario = proprietarioRepositorio.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Proprietário não encontrado com ID: " + id));
+
+        Endereco endereco = new Endereco(dto.getEndereco());
+
+        proprietario.setNomeRestaurante(dto.getNomeRestaurante());
+        proprietario.setTelefoneComercial(dto.getTelefoneComercial());
+        proprietario.setEmail(dto.getEmail());
+        proprietario.setCnpj(dto.getCnpj());
+        proprietario.setEndereco(endereco);
+        proprietario.setDataUltimaAlteracao(LocalDateTime.now());
+        proprietario.setNome(dto.getNome());
+
+        ProprietarioRestaurante updatedProprietario = proprietarioRepositorio.save(proprietario);
+        return converteDTO.convertePaProprietarioResponseDTO(updatedProprietario);
     }
 }

@@ -3,6 +3,9 @@ package br.com.fiap.tc.restaurant.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.tc.restaurant.dto.ClienteResponseDTO;
 import br.com.fiap.tc.restaurant.dto.CriarClienteDTO;
+import br.com.fiap.tc.restaurant.dto.ClienteUpdateDTO;
 import br.com.fiap.tc.restaurant.services.ClienteService;
 import br.com.fiap.tc.restaurant.services.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,6 +49,33 @@ public class ClienteController {
     public ResponseEntity<ClienteResponseDTO> cadastrarCliente(@Valid @RequestBody CriarClienteDTO dto) {
         ClienteResponseDTO cliente = clienteService.cadastrarCliente(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(cliente);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Excluir cliente", description = "Remove um cliente do sistema")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Cliente excluído com sucesso"),
+        @ApiResponse(responseCode = "404", description = "Cliente não encontrado",
+            content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    public ResponseEntity<Void> excluirCliente(@PathVariable Long id) {
+        clienteService.excluirCliente(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Atualizar dados do cliente",
+        description = "Atualiza nome, email, telefone, data de nascimento e endereço (não inclui senha)")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Cliente atualizado com sucesso"),
+        @ApiResponse(responseCode = "404", description = "Cliente não encontrado",
+            content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    public ResponseEntity<ClienteResponseDTO> atualizarCliente(
+            @PathVariable Long id,
+            @Valid @RequestBody ClienteUpdateDTO dto) {
+        ClienteResponseDTO cliente = clienteService.atualizarCliente(id, dto);
+        return ResponseEntity.ok(cliente);
     }
 
 }

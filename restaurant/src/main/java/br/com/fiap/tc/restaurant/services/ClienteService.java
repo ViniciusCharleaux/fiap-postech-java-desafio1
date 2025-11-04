@@ -7,12 +7,15 @@ import org.springframework.stereotype.Service;
 
 import br.com.fiap.tc.restaurant.dto.ClienteResponseDTO;
 import br.com.fiap.tc.restaurant.dto.CriarClienteDTO;
+import br.com.fiap.tc.restaurant.dto.ClienteUpdateDTO;
 import br.com.fiap.tc.restaurant.entities.Cliente;
 import br.com.fiap.tc.restaurant.entities.Endereco;
 import br.com.fiap.tc.restaurant.exceptions.DuplicateResourceException;
+import br.com.fiap.tc.restaurant.exceptions.ResourceNotFoundException;
 import br.com.fiap.tc.restaurant.helpers.ConverteDTO;
 import br.com.fiap.tc.restaurant.repositories.ClienteRepositorio;
 import br.com.fiap.tc.restaurant.repositories.UsuarioRepositorio;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ClienteService {
@@ -61,6 +64,40 @@ public class ClienteService {
 
         Cliente savedCliente = clienteRepositorio.save(cliente);
         return converteDto.converteParaClienteResponseDTO(savedCliente);
+    }
+
+    public void excluirCliente(Long id) {
+
+        if(!clienteRepositorio.existsById(id)) {
+            throw new IllegalArgumentException("Cliente nao encontrado: " + id);
+        }
+
+        clienteRepositorio.deleteById(id);
+    }
+    
+    @Transactional
+    public ClienteResponseDTO atualizarCliente(Long id, ClienteUpdateDTO dto) {
+        Cliente cliente = clienteRepositorio.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado com ID: " + id));
+
+        if (!cliente.getEmail().equalsIgnoreCase(dto.getEmail())) {
+            usuarioRepositorio.findByEmail(dto.getEmail()).ifPresent(c -> {
+                throw new RuntimeException("Já existe um cliente com o e-mail informado.");
+            });
+        }
+
+        cliente.setNome(dto.getNome());
+        cliente.setEmail(dto.getEmail());
+        cliente.setTelefone(dto.getTelefone());
+        cliente.setDataNascimento(dto.getDataNascimento());
+
+        Endereco endereco = new Endereco(dto.getEndereco());
+        cliente.setEndereco(endereco);
+
+        cliente.setDataUltimaAlteracao(LocalDateTime.now());
+
+        Cliente atualizado = clienteRepositorio.save(cliente);
+        return converteDto.converteParaClienteResponseDTO(atualizado);
     }
     
 }
