@@ -4,10 +4,14 @@ import org.springframework.stereotype.Component;
 
 import br.com.fiap.tc.restaurant.dto.ClienteResponseDTO;
 import br.com.fiap.tc.restaurant.dto.EnderecoDTO;
+import br.com.fiap.tc.restaurant.dto.RestauranteResponseDTO;
 import br.com.fiap.tc.restaurant.dto.ProprietarioResponseDTO;
+import br.com.fiap.tc.restaurant.dto.ItemCardapioResponseDTO;
 import br.com.fiap.tc.restaurant.entities.Cliente;
 import br.com.fiap.tc.restaurant.entities.Endereco;
 import br.com.fiap.tc.restaurant.entities.ProprietarioRestaurante;
+import br.com.fiap.tc.restaurant.entities.Restaurante;
+import br.com.fiap.tc.restaurant.entities.ItemCardapio;
 
 @Component
 public class ConverteDTO {
@@ -38,6 +42,35 @@ public class ConverteDTO {
         dto.setDataCriacao(proprietario.getDataCriacao());
         dto.setDataUltimaAlteracao(proprietario.getDataUltimaAlteracao());
         dto.setUserType("PROPRIETARIO");
+        return dto;
+    }
+    
+    public RestauranteResponseDTO converteParaRestauranteResponseDTO(Restaurante restaurante) {
+        RestauranteResponseDTO dto = new RestauranteResponseDTO();
+        dto.setId(restaurante.getId());
+        dto.setNome(restaurante.getNome());
+        dto.setEndereco(toEnderecoDTO(restaurante.getEndereco()));
+        dto.setTipoDeCozinha(restaurante.getTipoDeCozinha());
+        dto.setHorarioDeFuncionamento(restaurante.getHorarioDeFuncionamento());
+        if (restaurante.getProprietario() != null) {
+            dto.setProprietarioId(restaurante.getProprietario().getId());
+            dto.setProprietarioNome(restaurante.getProprietario().getNome());
+        }
+        return dto;
+    }
+    
+    public ItemCardapioResponseDTO converteParaItemCardapioResponseDTO(ItemCardapio item) {
+        ItemCardapioResponseDTO dto = new ItemCardapioResponseDTO();
+        dto.setId(item.getId());
+        dto.setNome(item.getNome());
+        dto.setDescricao(item.getDescricao());
+        dto.setPreco(item.getPreco());
+        dto.setApenasNoRestaurante(item.getApenasNoRestaurante());
+        dto.setCaminhoFoto(item.getCaminhoFoto());
+        if (item.getRestaurante() != null) {
+            dto.setRestauranteId(item.getRestaurante().getId());
+            dto.setRestauranteNome(item.getRestaurante().getNome());
+        }
         return dto;
     }
     
