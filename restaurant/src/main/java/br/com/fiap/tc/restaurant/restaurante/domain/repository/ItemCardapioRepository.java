@@ -3,7 +3,7 @@ package br.com.fiap.tc.restaurant.restaurante.domain.repository;
 import java.util.Optional;
 import java.util.List;
 
-import br.com.fiap.tc.restaurant.entities.ItemCardapio;
+import br.com.fiap.tc.restaurant.domain.entities.ItemCardapio;
 
 public interface ItemCardapioRepository {
     ItemCardapio save(ItemCardapio item);

@@ -6,12 +6,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.fiap.tc.restaurant.dto.AuthResponseDTO;
-import br.com.fiap.tc.restaurant.dto.BuscaUsuariosDTO;
-import br.com.fiap.tc.restaurant.dto.LoginResquestDTO;
-import br.com.fiap.tc.restaurant.dto.TrocaSenhaDTO;
-import br.com.fiap.tc.restaurant.entities.Usuario;
-import br.com.fiap.tc.restaurant.repositories.UsuarioRepositorio;
+import br.com.fiap.tc.restaurant.application.dto.AuthResponseDTO;
+import br.com.fiap.tc.restaurant.application.dto.BuscaUsuariosDTO;
+import br.com.fiap.tc.restaurant.application.dto.LoginResquestDTO;
+import br.com.fiap.tc.restaurant.application.dto.TrocaSenhaDTO;
+import br.com.fiap.tc.restaurant.domain.entities.Usuario;
+import br.com.fiap.tc.restaurant.domain.repositories.UsuarioRepositorio;
 
 @Service
 public class UsuarioService {

@@ -3,7 +3,7 @@ package br.com.fiap.tc.restaurant.restaurante.domain.repository;
 import java.util.Optional;
 import java.util.List;
 
-import br.com.fiap.tc.restaurant.entities.Restaurante;
+import br.com.fiap.tc.restaurant.domain.entities.Restaurante;
 
 public interface RestauranteRepository {
     Restaurante save(Restaurante restaurante);

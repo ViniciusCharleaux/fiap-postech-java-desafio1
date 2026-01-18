@@ -6,16 +6,16 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.fiap.tc.restaurant.dto.CriarRestauranteDTO;
-import br.com.fiap.tc.restaurant.dto.RestauranteResponseDTO;
-import br.com.fiap.tc.restaurant.dto.RestauranteUpdateDTO;
-import br.com.fiap.tc.restaurant.entities.Endereco;
-import br.com.fiap.tc.restaurant.entities.ProprietarioRestaurante;
-import br.com.fiap.tc.restaurant.entities.Restaurante;
-import br.com.fiap.tc.restaurant.exceptions.ResourceNotFoundException;
-import br.com.fiap.tc.restaurant.helpers.ConverteDTO;
-import br.com.fiap.tc.restaurant.repositories.ProprietarioRepositorio;
-import br.com.fiap.tc.restaurant.repositories.RestauranteRepositorio;
+import br.com.fiap.tc.restaurant.application.dto.CriarRestauranteDTO;
+import br.com.fiap.tc.restaurant.application.dto.RestauranteResponseDTO;
+import br.com.fiap.tc.restaurant.application.dto.RestauranteUpdateDTO;
+import br.com.fiap.tc.restaurant.domain.entities.Endereco;
+import br.com.fiap.tc.restaurant.domain.entities.ProprietarioRestaurante;
+import br.com.fiap.tc.restaurant.domain.entities.Restaurante;
+import br.com.fiap.tc.restaurant.domain.exceptions.ResourceNotFoundException;
+import br.com.fiap.tc.restaurant.infrastructure.helpers.ConverteDTO;
+import br.com.fiap.tc.restaurant.domain.repositories.ProprietarioRepositorio;
+import br.com.fiap.tc.restaurant.domain.repositories.RestauranteRepositorio;
 
 @Service
 public class RestauranteService {

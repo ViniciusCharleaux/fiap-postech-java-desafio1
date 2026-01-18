@@ -5,15 +5,15 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import br.com.fiap.tc.restaurant.dto.CriarItemCardapioDTO;
-import br.com.fiap.tc.restaurant.dto.ItemCardapioResponseDTO;
-import br.com.fiap.tc.restaurant.dto.ItemCardapioUpdateDTO;
-import br.com.fiap.tc.restaurant.entities.ItemCardapio;
-import br.com.fiap.tc.restaurant.entities.Restaurante;
-import br.com.fiap.tc.restaurant.exceptions.ResourceNotFoundException;
-import br.com.fiap.tc.restaurant.helpers.ConverteDTO;
-import br.com.fiap.tc.restaurant.repositories.ItemCardapioRepositorio;
-import br.com.fiap.tc.restaurant.repositories.RestauranteRepositorio;
+import br.com.fiap.tc.restaurant.application.dto.CriarItemCardapioDTO;
+import br.com.fiap.tc.restaurant.application.dto.ItemCardapioResponseDTO;
+import br.com.fiap.tc.restaurant.application.dto.ItemCardapioUpdateDTO;
+import br.com.fiap.tc.restaurant.domain.entities.ItemCardapio;
+import br.com.fiap.tc.restaurant.domain.entities.Restaurante;
+import br.com.fiap.tc.restaurant.domain.exceptions.ResourceNotFoundException;
+import br.com.fiap.tc.restaurant.infrastructure.helpers.ConverteDTO;
+import br.com.fiap.tc.restaurant.domain.repositories.ItemCardapioRepositorio;
+import br.com.fiap.tc.restaurant.domain.repositories.RestauranteRepositorio;
 
 @Service
 public class ItemCardapioService {

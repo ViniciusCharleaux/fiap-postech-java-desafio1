@@ -1,0 +1,14 @@
+package br.com.fiap.tc.restaurant.application.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProprietarioResponseDTO extends UsuarioResponseDTO {
+    private String nomeRestaurante;
+    private String cnpj;
+    private String telefoneComercial;
+}
