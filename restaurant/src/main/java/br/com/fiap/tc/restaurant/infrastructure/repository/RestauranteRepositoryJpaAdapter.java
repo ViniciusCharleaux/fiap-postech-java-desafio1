@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import br.com.fiap.tc.restaurant.domain.entities.Restaurante;
 import br.com.fiap.tc.restaurant.domain.repositories.RestauranteRepositorio;
-import br.com.fiap.tc.restaurant.restaurante.domain.repository.RestauranteRepository;
 
 @Repository
 public class RestauranteRepositoryJpaAdapter implements RestauranteRepository {

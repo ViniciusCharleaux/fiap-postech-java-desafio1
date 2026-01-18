@@ -1,4 +1,4 @@
-package br.com.fiap.tc.restaurant.application.usecase;
+package br.com.fiap.tc.restaurant.application.usecase.restaurante;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.fiap.tc.restaurant.application.dto.RestauranteResponseDTO;
 import br.com.fiap.tc.restaurant.infrastructure.helpers.ConverteDTO;
-import br.com.fiap.tc.restaurant.restaurante.domain.repository.RestauranteRepository;
+import br.com.fiap.tc.restaurant.infrastructure.repository.RestauranteRepository;
 
 @Service
 public class ListarRestaurantes {

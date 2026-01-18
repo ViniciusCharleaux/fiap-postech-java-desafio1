@@ -1,4 +1,4 @@
-package br.com.fiap.tc.restaurant.restaurante.domain.repository;
+package br.com.fiap.tc.restaurant.infrastructure.repository;
 
 import java.util.Optional;
 import java.util.List;

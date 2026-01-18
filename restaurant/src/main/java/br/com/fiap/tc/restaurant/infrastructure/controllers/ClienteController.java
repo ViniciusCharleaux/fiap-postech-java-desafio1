@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.fiap.tc.restaurant.application.dto.ClienteResponseDTO;
 import br.com.fiap.tc.restaurant.application.dto.CriarClienteDTO;
 import br.com.fiap.tc.restaurant.application.dto.ClienteUpdateDTO;
-import br.com.fiap.tc.restaurant.services.ClienteService;
-import br.com.fiap.tc.restaurant.services.UsuarioService;
+import br.com.fiap.tc.restaurant.application.usecase.cliente.AtualizarCliente;
+import br.com.fiap.tc.restaurant.application.usecase.cliente.CadastrarCliente;
+import br.com.fiap.tc.restaurant.application.usecase.cliente.ExcluirCliente;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -29,12 +30,14 @@ import jakarta.validation.Valid;
 @Tag(name = "Clientes", description = "API de gerenciamento de clientes")
 public class ClienteController {
 
-    private final UsuarioService userService;
-    private final ClienteService clienteService;
+    private final CadastrarCliente cadastrarCliente;
+    private final ExcluirCliente excluirCliente;
+    private final AtualizarCliente atualizarCliente;
 
-    public ClienteController(UsuarioService userService, ClienteService clienteService) {
-        this.userService = userService;
-        this.clienteService = clienteService;
+    public ClienteController(CadastrarCliente cadastrarCliente, ExcluirCliente excluirCliente, AtualizarCliente atualizarCliente) {
+        this.cadastrarCliente = cadastrarCliente;
+        this.excluirCliente = excluirCliente;
+        this.atualizarCliente = atualizarCliente;
     }
 
     @PostMapping
@@ -47,7 +50,7 @@ public class ClienteController {
             content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
     })
     public ResponseEntity<ClienteResponseDTO> cadastrarCliente(@Valid @RequestBody CriarClienteDTO dto) {
-        ClienteResponseDTO cliente = clienteService.cadastrarCliente(dto);
+        ClienteResponseDTO cliente = cadastrarCliente.execute(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(cliente);
     }
 
@@ -59,7 +62,7 @@ public class ClienteController {
             content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
     })
     public ResponseEntity<Void> excluirCliente(@PathVariable Long id) {
-        clienteService.excluirCliente(id);
+        excluirCliente.execute(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -74,7 +77,7 @@ public class ClienteController {
     public ResponseEntity<ClienteResponseDTO> atualizarCliente(
             @PathVariable Long id,
             @Valid @RequestBody ClienteUpdateDTO dto) {
-        ClienteResponseDTO cliente = clienteService.atualizarCliente(id, dto);
+        ClienteResponseDTO cliente = atualizarCliente.execute(id, dto);
         return ResponseEntity.ok(cliente);
     }
 

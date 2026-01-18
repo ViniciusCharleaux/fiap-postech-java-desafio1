@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.tc.restaurant.application.dto.BuscaUsuariosDTO;
 import br.com.fiap.tc.restaurant.application.dto.TrocaSenhaDTO;
-import br.com.fiap.tc.restaurant.services.UsuarioService;
+import br.com.fiap.tc.restaurant.application.usecase.auth.BuscarUsuariosPorNome;
+import br.com.fiap.tc.restaurant.application.usecase.auth.TrocarSenhaUsuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,10 +31,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Usuarios", description = "API de gerenciamento de usuários")
 public class UsuariosController {
 
-    private final UsuarioService usuarioService;
+    private final BuscarUsuariosPorNome buscarUsuariosPorNome;
+    private final TrocarSenhaUsuario trocarSenhaUsuario;
 
-    public UsuariosController(UsuarioService usuarioService){
-        this.usuarioService = usuarioService;
+    public UsuariosController(BuscarUsuariosPorNome buscarUsuariosPorNome, TrocarSenhaUsuario trocarSenhaUsuario){
+        this.buscarUsuariosPorNome = buscarUsuariosPorNome;
+        this.trocarSenhaUsuario = trocarSenhaUsuario;
     }
 
     @GetMapping
@@ -49,7 +52,7 @@ public class UsuariosController {
             @RequestParam(required = false, defaultValue = "") String nome,
             @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable
     ) {
-        Page<BuscaUsuariosDTO> usuarios = usuarioService.buscarUsuariosPorNome(nome, pageable);
+        Page<BuscaUsuariosDTO> usuarios = buscarUsuariosPorNome.execute(nome, pageable);
         return ResponseEntity.ok(usuarios);
     }
 
@@ -66,7 +69,7 @@ public class UsuariosController {
             @PathVariable String login,
             @Validated @RequestBody TrocaSenhaDTO dto
     ) {
-        usuarioService.trocarSenha(login, dto);
+        trocarSenhaUsuario.execute(login, dto);
         return ResponseEntity.noContent().build();
     }
 

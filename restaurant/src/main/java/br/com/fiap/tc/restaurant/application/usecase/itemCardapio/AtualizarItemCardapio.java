@@ -1,24 +1,24 @@
-package br.com.fiap.tc.restaurant.application.usecase;
+package br.com.fiap.tc.restaurant.application.usecase.itemCardapio;
 
 import org.springframework.stereotype.Service;
 
-import br.com.fiap.tc.restaurant.application.dto.CriarItemCardapioDTO;
 import br.com.fiap.tc.restaurant.application.dto.ItemCardapioResponseDTO;
+import br.com.fiap.tc.restaurant.application.dto.ItemCardapioUpdateDTO;
 import br.com.fiap.tc.restaurant.domain.entities.ItemCardapio;
 import br.com.fiap.tc.restaurant.domain.entities.Restaurante;
 import br.com.fiap.tc.restaurant.domain.exceptions.ResourceNotFoundException;
 import br.com.fiap.tc.restaurant.infrastructure.helpers.ConverteDTO;
-import br.com.fiap.tc.restaurant.restaurante.domain.repository.ItemCardapioRepository;
 import br.com.fiap.tc.restaurant.domain.repositories.RestauranteRepositorio;
+import br.com.fiap.tc.restaurant.infrastructure.repository.ItemCardapioRepository;
 
 @Service
-public class CadastrarItemCardapio {
+public class AtualizarItemCardapio {
 
     private final ItemCardapioRepository itemCardapioRepository;
     private final RestauranteRepositorio restauranteRepositorio;
     private final ConverteDTO converteDTO;
 
-    public CadastrarItemCardapio(ItemCardapioRepository itemCardapioRepository,
+    public AtualizarItemCardapio(ItemCardapioRepository itemCardapioRepository,
                                  RestauranteRepositorio restauranteRepositorio,
                                  ConverteDTO converteDTO) {
         this.itemCardapioRepository = itemCardapioRepository;
@@ -26,11 +26,13 @@ public class CadastrarItemCardapio {
         this.converteDTO = converteDTO;
     }
 
-    public ItemCardapioResponseDTO execute(CriarItemCardapioDTO dto) {
+    public ItemCardapioResponseDTO execute(Long id, ItemCardapioUpdateDTO dto) {
+        ItemCardapio item = itemCardapioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Item de cardápio não encontrado com ID: " + id));
+
         Restaurante restaurante = restauranteRepositorio.findById(dto.getRestauranteId())
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurante não encontrado com ID: " + dto.getRestauranteId()));
 
-        ItemCardapio item = new ItemCardapio();
         item.setNome(dto.getNome());
         item.setDescricao(dto.getDescricao());
         item.setPreco(dto.getPreco());
@@ -38,7 +40,7 @@ public class CadastrarItemCardapio {
         item.setCaminhoFoto(dto.getCaminhoFoto());
         item.setRestaurante(restaurante);
 
-        ItemCardapio salvo = itemCardapioRepository.save(item);
-        return converteDTO.converteParaItemCardapioResponseDTO(salvo);
+        ItemCardapio atualizado = itemCardapioRepository.save(item);
+        return converteDTO.converteParaItemCardapioResponseDTO(atualizado);
     }
 }

@@ -1,9 +1,9 @@
-package br.com.fiap.tc.restaurant.application.usecase;
+package br.com.fiap.tc.restaurant.application.usecase.itemCardapio;
 
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.tc.restaurant.domain.exceptions.ResourceNotFoundException;
-import br.com.fiap.tc.restaurant.restaurante.domain.repository.ItemCardapioRepository;
+import br.com.fiap.tc.restaurant.infrastructure.repository.ItemCardapioRepository;
 
 @Service
 public class ExcluirItemCardapio {

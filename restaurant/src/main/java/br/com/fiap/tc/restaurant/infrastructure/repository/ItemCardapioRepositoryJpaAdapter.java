@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import br.com.fiap.tc.restaurant.domain.entities.ItemCardapio;
 import br.com.fiap.tc.restaurant.domain.repositories.ItemCardapioRepositorio;
-import br.com.fiap.tc.restaurant.restaurante.domain.repository.ItemCardapioRepository;
 
 @Repository
 public class ItemCardapioRepositoryJpaAdapter implements ItemCardapioRepository {

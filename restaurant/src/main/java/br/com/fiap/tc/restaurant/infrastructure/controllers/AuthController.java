@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.tc.restaurant.application.dto.AuthResponseDTO;
 import br.com.fiap.tc.restaurant.application.dto.LoginResquestDTO;
-import br.com.fiap.tc.restaurant.services.UsuarioService;
+import br.com.fiap.tc.restaurant.application.usecase.auth.FazerLogin;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -19,10 +19,10 @@ import jakarta.validation.Valid;
 @Tag(name = "Login", description = "Faz o login")
 public class AuthController {
     
-    private final UsuarioService usuarioService;
+    private final FazerLogin fazerLogin;
 
-    public AuthController(UsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
+    public AuthController(FazerLogin fazerLogin) {
+        this.fazerLogin = fazerLogin;
     }
 
     @PostMapping
@@ -35,7 +35,7 @@ public class AuthController {
     //         content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
     // })
     public ResponseEntity<AuthResponseDTO> fazerLogin(@Valid @RequestBody LoginResquestDTO dto) {
-        AuthResponseDTO login = usuarioService.fazerLogin(dto);
+        AuthResponseDTO login = fazerLogin.execute(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(login);
     }
 }

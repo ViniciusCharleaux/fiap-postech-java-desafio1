@@ -1,4 +1,4 @@
-package br.com.fiap.tc.restaurant.application.usecase;
+package br.com.fiap.tc.restaurant.application.usecase.restaurante;
 
 import org.springframework.stereotype.Service;
 
@@ -6,7 +6,7 @@ import br.com.fiap.tc.restaurant.application.dto.RestauranteResponseDTO;
 import br.com.fiap.tc.restaurant.domain.entities.Restaurante;
 import br.com.fiap.tc.restaurant.domain.exceptions.ResourceNotFoundException;
 import br.com.fiap.tc.restaurant.infrastructure.helpers.ConverteDTO;
-import br.com.fiap.tc.restaurant.restaurante.domain.repository.RestauranteRepository;
+import br.com.fiap.tc.restaurant.infrastructure.repository.RestauranteRepository;
 
 @Service
 public class ObterRestaurantePorId {
