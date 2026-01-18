@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.tc.restaurant.application.dto.BuscaUsuariosDTO;
+import br.com.fiap.tc.restaurant.application.dto.AtribuirTipoUsuarioDTO;
 import br.com.fiap.tc.restaurant.application.dto.TrocaSenhaDTO;
 import br.com.fiap.tc.restaurant.application.usecase.auth.BuscarUsuariosPorNome;
 import br.com.fiap.tc.restaurant.application.usecase.auth.TrocarSenhaUsuario;
+import br.com.fiap.tc.restaurant.application.usecase.usuarioTipo.AtribuirTipoAUsuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,10 +35,14 @@ public class UsuariosController {
 
     private final BuscarUsuariosPorNome buscarUsuariosPorNome;
     private final TrocarSenhaUsuario trocarSenhaUsuario;
+    private final AtribuirTipoAUsuario atribuirTipoAUsuario;
 
-    public UsuariosController(BuscarUsuariosPorNome buscarUsuariosPorNome, TrocarSenhaUsuario trocarSenhaUsuario){
+    public UsuariosController(BuscarUsuariosPorNome buscarUsuariosPorNome,
+                              TrocarSenhaUsuario trocarSenhaUsuario,
+                              AtribuirTipoAUsuario atribuirTipoAUsuario){
         this.buscarUsuariosPorNome = buscarUsuariosPorNome;
         this.trocarSenhaUsuario = trocarSenhaUsuario;
+        this.atribuirTipoAUsuario = atribuirTipoAUsuario;
     }
 
     @GetMapping
@@ -70,6 +76,16 @@ public class UsuariosController {
             @Validated @RequestBody TrocaSenhaDTO dto
     ) {
         trocarSenhaUsuario.execute(login, dto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{usuarioId}/tipo-usuario")
+    @Operation(summary = "Atribuir tipo de usuário", description = "Associa um tipo de usuário a um usuário existente")
+    public ResponseEntity<Void> atribuirTipoUsuario(
+            @PathVariable Long usuarioId,
+            @Validated @RequestBody AtribuirTipoUsuarioDTO dto
+    ) {
+        atribuirTipoAUsuario.execute(usuarioId, dto);
         return ResponseEntity.noContent().build();
     }
 

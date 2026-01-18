@@ -15,6 +15,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -68,4 +70,8 @@ public class Usuario {
     
     @Column(name = "user_type", insertable = false, updatable = false)
     private String userType;
+
+    @ManyToOne
+    @JoinColumn(name = "tipo_usuario_id")
+    private TipoUsuario tipoUsuario;
 }
