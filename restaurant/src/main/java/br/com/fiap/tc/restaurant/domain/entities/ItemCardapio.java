@@ -16,6 +16,8 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Data
 @NoArgsConstructor
@@ -50,5 +52,6 @@ public class ItemCardapio {
 
     @ManyToOne
     @JoinColumn(name = "restaurante_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurante restaurante;
 }
